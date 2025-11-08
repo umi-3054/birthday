@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>生日惊喜</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- 对话框遮罩层 -->
+    <div id="dialog-overlay" class="dialog-overlay">
+        <div class="dialog-container">
+            <div class="dialog-content">
+                <h2>神秘礼物</h2>
+                <p>这是一份礼物，确定要打开吗?</p>
+                <div class="dialog-buttons">
+                    <button id="confirm-btn" class="btn confirm-btn">确定打开</button>
+                    <button id="cancel-btn" class="btn cancel-btn">取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 主页面内容 -->
+    <div id="main-content" class="main-content hidden">
+        <!-- 祝福语容器 -->
+        <div id="blessings-container" class="blessings-container"></div>
+        
+        <div class="birthday-container">
+            <h1>🎉 生日快乐！ 🎉</h1>
+            <div class="celebration-message">
+                <p>愿你的每一天都充满快乐和惊喜！</p>
+                <p>祝福永远伴随着你！</p>
+            </div>
+            
+            <!-- 音乐控制按钮 -->
+            <div class="music-controls">
+                <button id="music-toggle" class="music-btn">
+                    <span class="music-icon">🎵</span>
+                    <span class="music-text">播放音乐</span>
+                </button>
+            </div>
+        </div>
+        
+        <!-- 背景音乐 -->
+        <audio id="birthdayBGM" loop>
+            <source src="https://assets.mixkit.co/music/preview/mixkit-happy-birthday-to-you-443.mp3" type="audio/mpeg">
+
+        </audio>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

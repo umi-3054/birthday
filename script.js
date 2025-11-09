@@ -88,12 +88,16 @@ document.addEventListener('DOMContentLoaded', function() {
                 // 显示主页面内容
                 mainContent.classList.remove('hidden');
                 
-                
                 // 播放庆祝效果
                 playCelebration();
                 
-                // 启动祝福语弹出功能
-                startBlessings();
+                // 先显示气球动画
+                createBalloons();
+                
+                // 延迟7秒后启动祝福语弹出功能
+                setTimeout(() => {
+                    startBlessings();
+                }, 5000);
                 
             }, 300);
         }, 150);
@@ -144,6 +148,55 @@ document.addEventListener('DOMContentLoaded', function() {
         // 移除气球放大效果
     }
 
+    // 创建气球动画（简洁CSS气球效果）
+    function createBalloons() {
+        // 气球颜色配置
+        const balloonColors = [
+            {hue: 0, name: '红色'},    // 红色
+            {hue: 120, name: '绿色'},  // 绿色
+            {hue: 240, name: '蓝色'},  // 蓝色
+            {hue: 30, name: '橙色'},   // 橙色
+            {hue: 300, name: '紫色'},  // 紫色
+            {hue: 180, name: '青色'},  // 青色
+            {hue: 60, name: '黄色'},   // 黄色
+            {hue: 330, name: '粉色'}   // 粉色
+        ];
+        
+        // 创建多个气球 - 2.5秒内密集出现
+        for (let i = 0; i < 60; i++) {
+            setTimeout(() => {
+                // 随机选择气球颜色
+                const randomColor = balloonColors[Math.floor(Math.random() * balloonColors.length)];
+                
+                // 创建气球容器
+                const balloon = document.createElement('div');
+                balloon.className = 'balloon';
+                
+                // 设置气球样式变量
+                balloon.style.setProperty('--hue', randomColor.hue);
+                balloon.style.setProperty('--left', `${Math.random() * 90 + 5}%`); // 随机水平位置（5%-95%）
+                balloon.style.setProperty('--size', `${Math.random() * 25 + 15}`); // 随机大小（15-40）
+                balloon.style.setProperty('--rate', `${Math.random() * 1.5 + 2.5}`); // 随机速度（2.5-4秒）
+                balloon.style.setProperty('--delay', `${Math.random() * 2.5}`); // 随机延迟（0-2.5秒）
+                
+                // 创建手把
+                const handle = document.createElement('div');
+                handle.className = 'handle';
+                
+                balloon.appendChild(handle);
+                document.body.appendChild(balloon);
+                
+                // 2.5秒后移除气球（气球飞到顶部消失）
+                setTimeout(() => {
+                    if (balloon.parentNode) {
+                        balloon.parentNode.removeChild(balloon);
+                    }
+                }, 2500); // 2.5秒后移除气球
+                
+            }, i * 42); // 每隔42毫秒创建一个气球，2.5秒内创建60个气球（2500ms/60≈42ms）
+        }
+    }
+
     // 祝福语弹出功能
 function startBlessings() {
     setInterval(() => {
@@ -155,7 +208,7 @@ function startBlessings() {
         for (let i = 0; i < 3; i++) {
             setTimeout(() => createBlessing(), i * 100);
         }
-    }, 500); 
+    }, 800); 
 }
 
 // 创建单个祝福语

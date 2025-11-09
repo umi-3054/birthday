@@ -1,8 +1,8 @@
 // 祝福语列表
 const blessings = [
     "生日快乐！🎉",
-    "愿你天天开心！😊",
-    "健康快乐每一天！💪",
+    "天天开心！😊",
+    "健康快乐！💪",
     "心想事成！✨",
     "万事如意！🌟",
     "幸福美满！❤️",
@@ -51,8 +51,27 @@ document.addEventListener('DOMContentLoaded', function() {
         dialogOverlay.style.display = 'flex';
     }, 100);
     
-    // 初始化背景音乐
-    initBackgroundMusic();
+    // 自动播放背景音乐
+    const bgm = document.getElementById('birthdayBGM');
+    if (bgm) {
+        // 延迟播放以避免浏览器自动播放限制
+        setTimeout(() => {
+            bgm.play().catch(e => {
+                console.log('自动播放失败，需要用户交互:', e);
+                // 如果自动播放失败，在用户点击时播放
+                document.addEventListener('click', function autoPlayOnClick() {
+                    bgm.play().then(() => {
+                        console.log('音乐开始播放');
+                    }).catch(err => {
+                        console.log('点击后播放失败:', err);
+                    });
+                    document.removeEventListener('click', autoPlayOnClick);
+                });
+            });
+        }, 500);
+    }
+    
+
 
     // 确认按钮点击事件
     confirmBtn.addEventListener('click', function() {
@@ -69,7 +88,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 // 显示主页面内容
                 mainContent.classList.remove('hidden');
                 
-                // 移除礼物打开动画
                 
                 // 播放庆祝效果
                 playCelebration();
@@ -110,7 +128,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 150);
     });
 
-    // 移除礼物打开动画
 
     // 庆祝效果
     function playCelebration() {
@@ -131,7 +148,14 @@ document.addEventListener('DOMContentLoaded', function() {
 function startBlessings() {
     setInterval(() => {
         createBlessing();
-    }, 800); // 每800毫秒弹出一个祝福语
+    }, 300); // 每300毫秒弹出一个祝福语，增加频率
+    
+    // 同时创建多个祝福语
+    setInterval(() => {
+        for (let i = 0; i < 3; i++) {
+            setTimeout(() => createBlessing(), i * 100);
+        }
+    }, 500); 
 }
 
 // 创建单个祝福语
@@ -170,43 +194,7 @@ function createBlessing() {
     }, 3000);
 }
 
-// 背景音乐控制
-function initBackgroundMusic() {
-    bgm = document.getElementById('birthdayBGM');
-    const musicBtn = document.getElementById('music-toggle');
-    
-    // 音乐按钮点击事件
-    musicBtn.addEventListener('click', function() {
-        if (isMusicPlaying) {
-            bgm.pause();
-            musicBtn.innerHTML = '🔇 播放音乐';
-            musicBtn.classList.remove('playing');
-        } else {
-            bgm.play().catch(e => {
-                console.log('音乐播放失败:', e);
-                // 如果自动播放失败，显示提示
-                musicBtn.innerHTML = '🔇 点击播放音乐';
-            });
-            musicBtn.innerHTML = '🔊 停止音乐';
-            musicBtn.classList.add('playing');
-        }
-        isMusicPlaying = !isMusicPlaying;
-    });
-    
-    // 尝试自动播放音乐（需要用户交互后）
-    document.addEventListener('click', function autoPlayMusic() {
-        if (!isMusicPlaying && bgm.paused) {
-            bgm.play().then(() => {
-                isMusicPlaying = true;
-                musicBtn.innerHTML = '🔊 停止音乐';
-                musicBtn.classList.add('playing');
-            }).catch(e => {
-                console.log('自动播放失败，需要用户交互');
-            });
-            document.removeEventListener('click', autoPlayMusic);
-        }
-    });
-}
+
 
 // 创建五彩纸屑效果
 function createConfetti() {
@@ -310,7 +298,3 @@ function createConfetti() {
     console.log('生日惊喜页面已加载完成！');
 });
 
-// 页面加载动画
-window.addEventListener('load', function() {
-    console.log('页面完全加载完成');
-});

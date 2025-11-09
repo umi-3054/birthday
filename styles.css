@@ -209,35 +209,7 @@ body {
     line-height: 1.6;
 }
 
-/* 音乐控制按钮 */
-.music-controls {
-    margin-top: 30px;
-}
 
-.music-btn {
-    background: linear-gradient(135deg, #ff6b6b, #ff8e53);
-    color: white;
-    border: none;
-    padding: 12px 24px;
-    border-radius: 25px;
-    font-size: 16px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 5px 15px rgba(255, 107, 107, 0.3);
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.music-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(255, 107, 107, 0.4);
-}
-
-.music-btn.playing {
-    background: linear-gradient(135deg, #4d96ff, #6bcff7);
-}
 
 /* 移除气球样式 */
 
@@ -279,7 +251,7 @@ body {
     }
 }
 
-/* 祝福语随机位置出现动画（加速版） */
+/* 祝福语随机位置出现动画（不消失版） */
 @keyframes blessingFloat {
     0% {
         opacity: 0;
@@ -291,20 +263,15 @@ body {
         transform: scale(1.1) rotate(5deg);
         filter: blur(0px);
     }
-    70% {
+    50% {
         opacity: 1;
         transform: scale(1) rotate(0deg);
         filter: blur(0px);
     }
-    90% {
-        opacity: 0.6;
-        transform: scale(0.9) rotate(-3deg);
-        filter: blur(2px);
-    }
     100% {
-        opacity: 0;
-        transform: scale(0.7) rotate(-8deg);
-        filter: blur(8px);
+        opacity: 1;
+        transform: scale(1) rotate(0deg);
+        filter: blur(0px);
     }
 }
 

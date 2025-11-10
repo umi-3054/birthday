@@ -54,21 +54,40 @@ document.addEventListener('DOMContentLoaded', function() {
     // 自动播放背景音乐
     const bgm = document.getElementById('birthdayBGM');
     if (bgm) {
+        // 设置音乐从0:51开始播放到1:10，然后循环
+        bgm.currentTime = 51; // 从51秒开始（0:51）
+        
         // 延迟播放以避免浏览器自动播放限制
         setTimeout(() => {
             bgm.play().catch(e => {
                 console.log('自动播放失败，需要用户交互:', e);
                 // 如果自动播放失败，在用户点击时播放
                 document.addEventListener('click', function autoPlayOnClick() {
+                    bgm.currentTime = 51; // 从51秒开始（0:51）
                     bgm.play().then(() => {
                         console.log('音乐开始播放');
+                        // 设置循环播放逻辑
+                        setupMusicLoop(bgm);
                     }).catch(err => {
                         console.log('点击后播放失败:', err);
                     });
                     document.removeEventListener('click', autoPlayOnClick);
                 });
             });
+            
+            // 设置循环播放逻辑
+            setupMusicLoop(bgm);
         }, 500);
+    }
+    
+    // 设置音乐循环播放逻辑
+    function setupMusicLoop(bgm) {
+        bgm.addEventListener('timeupdate', function() {
+            // 当播放到1:10（70秒）时，跳回到0:51（51秒）继续播放
+            if (bgm.currentTime >= 70) {
+                bgm.currentTime = 51;
+            }
+        });
     }
     
 
